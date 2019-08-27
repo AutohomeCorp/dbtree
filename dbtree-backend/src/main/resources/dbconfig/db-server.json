@@ -1,0 +1,16 @@
+{
+  "mysql-127.0.0.1": {
+    "db_type": "mysql",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "user": "root",
+    "password": "123456"
+  },
+  "sqlserver-127.0.0.2": {
+    "db_type": "sqlserver",
+    "host": "127.0.0.2",
+    "port": 1433,
+    "user": "root",
+    "password":"123456"
+  }
+}

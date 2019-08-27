@@ -1,0 +1,16 @@
+{
+  "db_1": {
+    "db_name": "db_1",
+    "db_server": "mysql-127.0.0.1",
+    "split_table_rules": [
+      {
+        "delegate_table": "rule",
+        "table_pattern": "rule_%"
+      }
+    ]
+  },
+  "db_2": {
+    "db_name": "db_2",
+    "db_server": "sqlserver-127.0.0.2"
+  }
+}

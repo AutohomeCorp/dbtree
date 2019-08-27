@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.autohome.dbtree.dao.mysql.dbtree.mapper.TreeNodeMapper" >
+  <resultMap id="BaseResultMap" type="com.autohome.dbtree.dao.mysql.dbtree.domain.TreeNode" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="db_name" property="db_name" jdbcType="VARCHAR" />
+    <result column="folder" property="folder" jdbcType="INTEGER" />
+    <result column="node_name" property="node_name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parent_id" jdbcType="BIGINT" />
+    <result column="created_stime" property="created_stime" jdbcType="TIMESTAMP" />
+    <result column="modified_stime" property="modified_stime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, db_name, folder, node_name, parent_id, created_stime, modified_stime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tree_node
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <insert id="add" parameterType="com.autohome.dbtree.dao.mysql.dbtree.domain.TreeNode"
+          useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    INSERT INTO tree_node(db_name, folder, node_name, parent_id)
+    VALUES(#{db_name}, #{folder}, #{node_name}, #{parent_id})
+  </insert>
+
+  <delete id="removeById" parameterType="java.lang.Long">
+    DELETE FROM tree_node WHERE id=#{id}
+  </delete>
+
+  <select id="findChildren" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM tree_node
+    WHERE parent_id=#{id} ORDER BY folder DESC, node_name ASC
+  </select>
+
+  <update id="updateParent">
+    UPDATE tree_node SET parent_id = #{newParentId} WHERE id IN
+    <foreach item="item" index="index" collection="idList"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <select id="findChildrenByDb" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM tree_node
+    WHERE db_name=#{dbName}
+  </select>
+
+  <select id="findSingleDbNode" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM tree_node
+    WHERE db_name=#{dbName} AND parent_id=0
+  </select>
+
+  <select id="findAllDbNodes" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" /> FROM tree_node
+    WHERE parent_id=0
+  </select>
+
+  <update id="rename">
+    UPDATE tree_node SET node_name=#{nodeName} WHERE id=#{id}
+  </update>
+</mapper>
