@@ -1,5 +1,7 @@
 ## DBTree简介
 
+简体中文 | [English](./README-EN.md)
+
 DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比phpMyAdmin, DBTree只专注于方便开发查看表结构信息和
 注释维护。通过树形展示库表结构，可以对表进行自定义归类，在线更新注释。
 
