@@ -22,7 +22,7 @@ update comment handily.
 
 In daily development, database communication is one of the most important and frequent part, our team found that no matter database 
 client like MSS Management Studio, phpMyAdmin or database design software like Power Designer, it is not convenient to browse or share 
-table definition and comment. Especially when there are thousands of sub-tables, the client is really tough. So we design this tool and we 
+table definition and comment. Especially when there are thousands of sub-tables, it is really tough. So we design this tool and we 
 love this tool, hope it would help you too. 
 
 comment friendly and classify your table is good for all.
