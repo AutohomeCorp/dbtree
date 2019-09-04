@@ -12,7 +12,7 @@ update comment handily.
 * show only one table delegate if the table is split into hundreds or thousands.
 * update table comment, column comment online handily.
 * support mysql, sql server
-* classify tables as folders.
+* organize tables as folders.
 
 ## Demo
 
