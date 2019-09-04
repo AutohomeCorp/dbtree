@@ -15,3 +15,4 @@ tests/**/coverage/
 *.njsproj
 *.sln
 *.iml
+/dbtree-backend/src/main/resources/public/

@@ -28,7 +28,7 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>cnpm</executable>
+              <executable>npm</executable>
               <arguments>
                 <argument>install</argument>
               </arguments>
