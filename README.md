@@ -7,11 +7,11 @@ DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比ph
 
 ## Features
 
+* 对表进行目录分类
 * 展示表常用信息
 * 分表只展示其中一个表结构
 * 在线维护表注释，字段注释
 * 支持mysql, sqlserver
-* 对表进行目录分类
 
 ## 功能演示
 
@@ -72,6 +72,26 @@ dbtree-backend/src/main/resources/dbconfig/db-config.json
 }
 ```
 db-config.json配置文件内容是map结构的json数据，其中key必须和库名(db_name)一致。split_table_rules是指定分表策略，例子的意思是用 rule 代替所有rule_%的表。
+
+## 开发调试
+
+环境要求
+* jdk 1.8+
+* node.js
+
+打开项目运行，访问：http://localhost:8080 
+
+为了更好的开发体验，你应该单独使用VS Code打开dbtree-vue目录，进行调试。执行如下命令:
+
+```bash
+# install dependency
+npm install
+
+# develop
+npm run dev
+```
+
+会自动打开： http://localhost:9528
 
 ## 部署
 

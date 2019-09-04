@@ -8,11 +8,11 @@ update comment handily.
 
 ## Features
 
+* organize tables as folders
 * browse important schema information
 * show only one table delegate if the table is split into hundreds or thousands.
 * update table comment, column comment online handily.
 * support mysql, sql server
-* organize tables as folders.
 
 ## Demo
 
@@ -25,7 +25,7 @@ client like MSS Management Studio, phpMyAdmin or database design software like P
 table definition and comment. Especially when there are thousands of sub-tables, it is really tough. So we design this tool and we 
 love this tool, hope it would help you too. 
 
-comment friendly and classify your table is good for all.
+comment friendly and classify your table as folders is good for all.
 
 ## config
 
@@ -75,6 +75,26 @@ dbtree-backend/src/main/resources/dbconfig/db-config.json
 ```
 db-config.json is a json map content, the key must be as same as database name(db_name). You can use split_table_rules to specify the 
 table split pattern, the example means using rule to represent all rule_% tables.
+
+## Debug
+
+Requirements
+* jdk 1.8+
+* node.js
+
+open and run the springboot project，visit：http://localhost:8080  
+
+for better debug experience, you should use VS Code to open the dbtree-vue folder. execute the following command:
+
+```bash
+# install dependency
+npm install
+
+# develop
+npm run dev
+```
+
+This will automatically open http://localhost:9528
 
 ## Deploy
 
