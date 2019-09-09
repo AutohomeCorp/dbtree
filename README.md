@@ -12,6 +12,7 @@ DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比ph
 * 分表只展示其中一个表结构
 * 在线维护表注释，字段注释
 * 支持mysql, sqlserver
+* 一键生成下载mybatis资源
 
 ## 功能演示
 
@@ -25,7 +26,7 @@ DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比ph
 
 维护好注释，对表进行合理的业务归类，方便你我他，oh, yeah!
 
-## 配置
+## 配置修改
 
 * 服务器配置
 
@@ -73,6 +74,26 @@ dbtree-backend/src/main/resources/dbconfig/db-config.json
 ```
 db-config.json配置文件内容是map结构的json数据，其中key必须和库名(db_name)一致。split_table_rules是指定分表策略，例子的意思是用 rule 代替所有rule_%的表。
 
+* mybatis.base.folder
+
+mybatis生成文件存放目录。
+
+* mybatis.mysql.connector
+
+mysql jdbc jar包位置, 用于配置mybatis generator core的mysql classpathEntry。
+
+* mybatis.sqlserver.connector
+
+sqlserver jdbc jar包位置, 用于配置mybatis generator core的SQL Server classpathEntry。
+
+## sql
+
+mysql表创建语句见：dbtree-backend/doc/schema目录
+
+## 数据库连接配置
+
+自行修改配置文件中的数据库服务器地址，和用户名, 密码，密码使用druid默认加密。
+
 ## 开发调试
 
 环境要求
@@ -100,8 +121,6 @@ npm run dev
 
 项目使用 springboot2.x + vue-element-template + mybatis。dbtree-vue资源会打包进dbtree-backend/src/main/resources/public下。直接部署
 dbtree-backend/target/dbtree.jar就可以了。  
-
-mysql表创建语句见：dbtree-backend/doc/schema目录
 
 JDK使用1.8
 
