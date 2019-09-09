@@ -22,7 +22,8 @@
                 @node-click="clickNode"
                 @node-drop="dropNodeHandle">
                 <span class="custom-tree-node" slot-scope="{ node, data }">
-                  <i v-if="!data.leaf" class="el-icon-message" /><i v-if="data.leaf" class="el-icon-document" />
+                  <svg-icon v-if="!data.leaf" icon-class="folder" />
+                  <svg-icon v-if="data.leaf" icon-class="table" />
                   <span class="tree-label" v-if="data.edit" @click.stop="">
                     <el-input size="mini" v-model="data.node_name" ref="treeInput"
                     @blur.stop="() => blur(node, data)" @keyup.native="() => editKeyUp(data, $event)"></el-input>
@@ -43,7 +44,7 @@
         </el-col>
         <el-col :span="19">
 
-          <div :class="className" 
+          <div :class="className"
             :style="{top:(isSticky ? stickyTop +'px' : ''),zIndex:zIndex,position:position,width:width,height:height+'px'}">
             <slot>
               <div style="text-align: center; padding-bottom: 20px" v-if="tableData.dataType=='column'">
@@ -131,66 +132,80 @@
                 </el-table-column>
               </el-table>
 
-              <el-table v-if="tableData.dataType=='table'"
-                :data="tableData.list"
-                v-loading="listLoading"
-                element-loading-text="Loading"
-                border
-                fit
-                highlight-current-row>
-                <el-table-column align="center" label="序号" width="95">
-                  <template slot-scope="scope">
-                    {{ scope.$index }}
-                  </template>
-                </el-table-column>
-                <el-table-column align="center" label="表名">
-                  <template slot-scope="scope">
-                    {{ scope.row.tableName }}
-                  </template>
-                </el-table-column>
-                <el-table-column align="center" label="表说明">
-                  <template slot-scope="{row}">
-                    <template v-if="row.edit">
-                      <el-input v-model="row.description" class="edit-input" size="small" />
+              <div v-if="tableData.dataType=='table'">
+                <div class="filter-container">
+                  <form>
+                  <label>domain包:</label>
+                  <el-input name="domainPackageInput" autocomplete="on" v-model="domainPackage" placeholder="com.autohome.dbtree.dao.mybatis.employee.domain" class="filter-item" style="width: 450px;" />
+                  <label>mapper包:</label>
+                  <el-input name="mapperPackageInput" autocomplete="on" v-model="mapperPackage" placeholder="com.autohome.dbtree.dao.mybatis.employee.mapper" class="filter-item" style="width: 450px;" />
+                  <el-checkbox v-model="useActualColumnNames" class="filter-item" style="margin-left:15px;">使用真实列名</el-checkbox>
+                  <el-button class="filter-item" icon="el-icon-download" type="primary" style="margin-left:15px;" @click="handleGenerateMybatis">下载Mybatis资源</el-button>
+                  </form>
+                </div>
+                <el-table
+                  :data="tableData.list"
+                  v-loading="listLoading"
+                  element-loading-text="Loading"
+                  border
+                  fit
+                  highlight-current-row
+                  @selection-change="handleSelectionChange">
+                  <el-table-column type="selection" width="55"></el-table-column>
+                  <el-table-column align="center" label="序号" width="95">
+                    <template slot-scope="scope">
+                      {{ scope.$index }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="center" label="表名">
+                    <template slot-scope="scope">
+                      {{ scope.row.tableName }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="center" label="表说明">
+                    <template slot-scope="{row}">
+                      <template v-if="row.edit">
+                        <el-input v-model="row.description" class="edit-input" size="small" />
+                        <el-button
+                          class="cancel-btn"
+                          size="small"
+                          icon="el-icon-refresh"
+                          type="warning"
+                          @click="cancelTableEdit(row)"
+                        >
+                          取消
+                        </el-button>
+                      </template>
+                      <span v-else>{{ row.description }}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="center" label="修改注释" width="120">
+                    <template slot-scope="{row}">
                       <el-button
-                        class="cancel-btn"
+                        v-if="row.edit"
+                        type="success"
                         size="small"
-                        icon="el-icon-refresh"
-                        type="warning"
-                        @click="cancelTableEdit(row)"
+                        icon="el-icon-circle-check-outline"
+                        @click="confirmTableEdit(row)"
                       >
-                        取消
+                        确定
+                      </el-button>
+                      <el-button
+                        v-else
+                        type="primary"
+                        size="small"
+                        icon="el-icon-edit"
+                        @click="row.edit=!row.edit"
+                      >
+                        编辑
                       </el-button>
                     </template>
-                    <span v-else>{{ row.description }}</span>
-                  </template>
-                </el-table-column>
-                <el-table-column align="center" label="修改注释" width="120">
-                  <template slot-scope="{row}">
-                    <el-button
-                      v-if="row.edit"
-                      type="success"
-                      size="small"
-                      icon="el-icon-circle-check-outline"
-                      @click="confirmTableEdit(row)"
-                    >
-                      确定
-                    </el-button>
-                    <el-button
-                      v-else
-                      type="primary"
-                      size="small"
-                      icon="el-icon-edit"
-                      @click="row.edit=!row.edit"
-                    >
-                      编辑
-                    </el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
+                  </el-table-column>
+                </el-table>
+              </div>
             </slot>
           </div>
-          
+
         </el-col>
     </el-row>
 
@@ -214,6 +229,8 @@
 
 <script>
   import dbtree from '@/api/dbtree.js'
+  import code from '@/api/code.js'
+
   let id = -1;
 
   export default {
@@ -257,8 +274,12 @@
         data2: [],
         filterText: '',
         listLoading: true,
+        domainPackage: 'com.autohome.dbtree.dao.mybatis.employee.domain',
+        mapperPackage: 'com.autohome.dbtree.dao.mybatis.employee.mapper',
+        useActualColumnNames: false,
         tableData: {
           dataType: 'column',
+          selections: [],
           list: [],
           info: {
             tableName: 'name',
@@ -271,7 +292,7 @@
           folderId: 0,
           titles: ["已在目录表", "未分类表"],
           props: {
-            key: 'id', 
+            key: 'id',
             label: 'node_name'
           },
           data: [],
@@ -320,7 +341,7 @@
         }
         dbtree.deleteFolder(data.id).then(response => {
           if(!response.data.result) {
-            this.$message({ 
+            this.$message({
               showClose: true,
               message: '包含子节点目录无法删除！',
               type: 'error'
@@ -339,7 +360,7 @@
         setTimeout( () => {
           this.$refs.treeInput.$el.querySelector('input').focus();
         }, 1);
-        
+
       },
 
       classify(data) {
@@ -385,14 +406,14 @@
           dbtree.databases().then(response => {
             resolve(response.data.result);
           });
-          
+
           return;
         }
 
         dbtree.children(node.data.id).then(response => {
           setTimeout(() => {
             resolve(response.data.result);
-          }, 100);
+          }, 500);
         });
       },
 
@@ -568,7 +589,7 @@
             });
           }
         });
-        
+
       },
 
       sticky() {
@@ -592,10 +613,58 @@
       },
 
       handleScroll() {
-      
+
       },
 
       handleResize() {
+      },
+
+      forceFileDownload(response, fileName){
+        const url = window.URL.createObjectURL(new Blob([response.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', fileName) //or any other extension
+        document.body.appendChild(link)
+        link.click()
+      },
+
+      handleGenerateMybatis() {
+        var dbName = this.$refs.tree.getCurrentNode().database;
+        if(this.tableData.selections.length === 0) {
+          this.$message({
+              message: '请至少选择一个表',
+              type: 'warning'
+          });
+          return;
+        }
+        if(this.basePackage === null || this.basePackage === '') {
+          this.$message({
+              message: '请输入包名',
+              type: 'warning'
+          });
+          return;
+        }
+
+        var tables = this.tableData.selections.map(v => {
+          return v.tableName;
+        });
+        code.generate(dbName, this.domainPackage, this.mapperPackage, this.useActualColumnNames, tables.join(',')).then(response => {
+          if(response.data.returncode !== 0) {
+            this.$message({
+              message: '生成mybatis文件失败',
+              type: 'error'
+            });
+            return;
+          }
+          const zipFile = response.data.result;
+          code.mybatisDownload(zipFile).then(response2 => {
+            this.forceFileDownload(response2, zipFile);
+          });
+        });
+      },
+
+      handleSelectionChange(val) {
+        this.tableData.selections = val;
       }
     }
   };
@@ -611,6 +680,10 @@
     padding-right: 100px;
   }
 
+  .filter-container {
+    padding-bottom: 10px;
+  }
+
   /* .el-table th, .el-table tr {
     border-right: 1px solid #D7D7E5;
     border-bottom: 1px solid #D7D7E5;
@@ -619,7 +692,7 @@
 
   .el-table--enable-row-transition .el-table__body td {
     border-right: 1px solid #D7D7E5;
-    border-bottom: 1px solid #D7D7E5; 
+    border-bottom: 1px solid #D7D7E5;
     background-color:#FBFBFB
   } */
 

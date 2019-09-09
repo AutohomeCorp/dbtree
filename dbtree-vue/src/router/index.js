@@ -88,8 +88,8 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    hidden: true,
     meta: { title: 'Example', icon: 'example' },
+    hidden: true,
     children: [
       {
         path: 'table',
@@ -102,6 +102,12 @@ export const constantRoutes = [
         name: 'Tree',
         component: () => import('@/views/tree/index'),
         meta: { title: 'Tree', icon: 'tree' }
+      },
+      {
+        path: 'icon',
+        name: 'Icon',
+        component: () => import('@/views/icons/index'),
+        meta: { title: 'icon', icon: 'folder' }
       }
     ]
   },

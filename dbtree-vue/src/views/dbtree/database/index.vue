@@ -90,29 +90,34 @@
                 </el-table-column>
               </el-table>
 
-              <el-table v-if="tableData.dataType=='table'"
-                :data="tableData.list"
-                v-loading="listLoading"
-                element-loading-text="Loading"
-                border
-                fit
-                highlight-current-row>
-                <el-table-column align="center" label="序号" width="95">
-                  <template slot-scope="scope">
-                    {{ scope.$index }}
-                  </template>
-                </el-table-column>
-                <el-table-column align="center" label="表名">
-                  <template slot-scope="scope">
-                    {{ scope.row.tableName }}
-                  </template>
-                </el-table-column>
-                <el-table-column align="center" label="表说明">
-                  <template slot-scope="scope">
-                    {{ scope.row.description }}
-                  </template>
-                </el-table-column>
-              </el-table>
+              <div v-if="tableData.dataType=='table'">
+                <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" @click="handleDownload">生成Mybatis资源</el-button>
+                <a href="/code/mybatisDownload?zipFile=atom_20190906-182447.zip">点击下载</a>
+                <el-table
+                  :data="tableData.list"
+                  v-loading="listLoading"
+                  element-loading-text="Loading"
+                  border
+                  fit
+                  highlight-current-row>
+                  <el-table-column type="selection" width="55"></el-table-column>
+                  <el-table-column align="center" label="序号" width="95">
+                    <template slot-scope="scope">
+                      {{ scope.$index }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="center" label="表名">
+                    <template slot-scope="scope">
+                      {{ scope.row.tableName }}
+                    </template>
+                  </el-table-column>
+                  <el-table-column align="center" label="表说明">
+                    <template slot-scope="scope">
+                      {{ scope.row.description }}
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
             </slot>
           </div>
           
