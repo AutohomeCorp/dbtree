@@ -637,9 +637,16 @@
           });
           return;
         }
-        if(this.basePackage === null || this.basePackage === '') {
+        if(this.domainPackage === null || this.domainPackage === '') {
           this.$message({
-              message: '请输入包名',
+              message: '请输入domain包',
+              type: 'warning'
+          });
+          return;
+        }
+        if(this.mapperPackage === null || this.mapperPackage === '') {
+          this.$message({
+              message: '请输入mapper包',
               type: 'warning'
           });
           return;
