@@ -3,16 +3,17 @@
 简体中文 | [English](./README-EN.md)
 
 DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比phpMyAdmin, DBTree只专注于方便开发查看表结构信息和
-注释维护。通过树形展示库表结构，可以对表进行自定义归类，在线更新注释。
+注释维护。通过树形展示库表结构，可以对表进行自定义归类，在线更新注释。你还可以使用它来部分替代mybatis generator的代码生成
+功能。
 
 ## Features
 
+* 一键生成下载mybatis资源
 * 对表进行目录分类
 * 展示表常用信息
 * 分表只展示其中一个表结构
 * 在线维护表注释，字段注释
 * 支持mysql, sqlserver
-* 一键生成下载mybatis资源
 
 ## 功能演示
 
@@ -24,7 +25,7 @@ DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比ph
 类似Power Designer的数据库设计软件对表信息共享，注释维护这两个需求来说用起来都非常不便利，尤其是有上千个分表的时候，客户端用起来还是非常难受的。
 所以写了这个网页小工具，希望对有同样需求的人有所帮助。  
 
-维护好注释，对表进行合理的业务归类，方便你我他，oh, yeah!
+还有一个很酷的功能，就是你可以选择表，然后一键生成下载mybatis资源文件的功能，非常方便，不用配置mybatis generator配置文件。
 
 ## 配置修改
 
@@ -86,7 +87,7 @@ mysql jdbc jar包位置, 用于配置mybatis generator core的mysql classpathEnt
 
 sqlserver jdbc jar包位置, 用于配置mybatis generator core的SQL Server classpathEntry。
 
-## sql
+## 表结构语句
 
 mysql表创建语句见：dbtree-backend/doc/schema目录
 
