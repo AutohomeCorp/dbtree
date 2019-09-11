@@ -15,6 +15,22 @@ DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比ph
 * 在线维护表注释，字段注释
 * 支持mysql, sqlserver
 
+## 功能截图
+
+* 树形展示表信息，可编辑注释
+
+<img src="./demoimg/table.png" />
+
+* 选择目录，勾选表，生成mybatis资源
+
+<img src="./demoimg/mybatis.png" />
+
+* 添加分类目录，对表进行归档
+
+<img src="./demoimg/addfolder.png" />
+
+<img src="./demoimg/archive.png" />
+
 ## 功能演示
 
 <img src="./dbtree_demo.gif" />
