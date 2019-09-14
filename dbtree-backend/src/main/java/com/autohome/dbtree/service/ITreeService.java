@@ -19,6 +19,8 @@ public interface ITreeService {
 
     List<TableInfo> tableList(String dbName);
 
+    TableInfo oneTable(String dbName, String tableName);
+
     List<ColumnInfo> columnList(String dbName, String tableName);
 
     List<TreeNode> findAllDbNodes();

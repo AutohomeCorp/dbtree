@@ -24,12 +24,33 @@ const code = {
     });
   },
 
+  /**
+   * 下载mybatis资源
+   * @param {*} zipFile 文件名
+   */
   mybatisDownload(zipFile) {
     return request({
       url: '/code/mybatisDownload',
       method: 'get',
       params: {
         zipFile: zipFile
+      },
+      responseType: 'blob'
+    });
+  },
+
+  /**
+   * 表结构导出markdown文档
+   * @param {*} dbName 库名
+   * @param {*} tables 表
+   */
+  exportMarkdown(dbName, tables) {
+    return request({
+      url: '/code/exportMarkdown',
+      method: 'get',
+      params: {
+        dbName: dbName,
+        tables: tables
       },
       responseType: 'blob'
     });

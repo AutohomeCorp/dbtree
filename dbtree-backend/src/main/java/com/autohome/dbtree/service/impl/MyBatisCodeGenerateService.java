@@ -3,6 +3,7 @@ package com.autohome.dbtree.service.impl;
 import com.autohome.dbtree.config.MybatisCodeGeneratorConfig;
 import com.autohome.dbtree.contract.DbInfo;
 import com.autohome.dbtree.contract.DbServer;
+import com.autohome.dbtree.service.IMybatisCodeGenerateService;
 import org.joda.time.DateTime;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class MyBatisCodeGenerateService {
+public class MyBatisCodeGenerateService implements IMybatisCodeGenerateService {
 
     @Resource
     private Map<String, DbInfo> dbInfoMap;
@@ -32,6 +33,7 @@ public class MyBatisCodeGenerateService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MyBatisCodeGenerateService.class);
 
+    @Override
     public String execute(String domainPackage, String mapperPackage, String dbName, List<String> tableList, Boolean useActualColumnNames) {
         String folderName = dbName + "_" + DateTime.now().toString("yyyyMMdd-HHmmss");
         String absoluteFolderPath = mybatisCodeGeneratorConfig.getMybatisBaseFolder() + File.separator + folderName;

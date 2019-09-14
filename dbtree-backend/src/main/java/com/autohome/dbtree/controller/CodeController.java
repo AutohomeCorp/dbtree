@@ -2,7 +2,8 @@ package com.autohome.dbtree.controller;
 
 import com.autohome.dbtree.config.MybatisCodeGeneratorConfig;
 import com.autohome.dbtree.contract.Protocol;
-import com.autohome.dbtree.service.impl.MyBatisCodeGenerateService;
+import com.autohome.dbtree.service.IMybatisCodeGenerateService;
+import com.autohome.dbtree.service.ITableExportService;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import org.springframework.core.io.ByteArrayResource;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +33,10 @@ public class CodeController {
     private MybatisCodeGeneratorConfig mybatisCodeGeneratorConfig;
 
     @Resource
-    private MyBatisCodeGenerateService myBatisCodeGenerateService;
+    private IMybatisCodeGenerateService myBatisCodeGenerateService;
+
+    @Resource
+    private ITableExportService tableExportService;
 
     @RequestMapping(value = "/mybatisDownload", method = RequestMethod.GET)
     public ResponseEntity<org.springframework.core.io.Resource> mybatisDownload(@RequestParam(value = "zipFile", required = true) String zipFile) throws IOException {
@@ -43,6 +48,19 @@ public class CodeController {
         return ResponseEntity.ok()
                 .headers(headers)
                 .contentLength(file.length())
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(resource);
+    }
+
+    @RequestMapping(value = "/exportMarkdown", method = RequestMethod.GET)
+    public ResponseEntity<org.springframework.core.io.Resource> exportMarkdown(@RequestParam String dbName, @RequestParam String tables) {
+        String content = tableExportService.exportMarkdown(dbName, Splitter.on(',').splitToList(tables));
+        ByteArrayResource resource = new ByteArrayResource(content.getBytes(StandardCharsets.UTF_8));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "attachment; filename=" + dbName + ".md");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentLength(resource.contentLength())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
                 .body(resource);
     }

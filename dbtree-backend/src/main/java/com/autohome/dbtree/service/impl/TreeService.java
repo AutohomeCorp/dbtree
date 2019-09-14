@@ -122,6 +122,13 @@ public class TreeService implements ITreeService {
     }
 
     @Override
+    public TableInfo oneTable(String dbName, String tableName) {
+        IDbService dbService = chooseDbService(dbName);
+        List<TableInfo> tableInfoList = dbService.findTablesByName(dbName, Collections.singletonList(tableName));
+        return tableInfoList.get(0);
+    }
+
+    @Override
     public List<ColumnInfo> columnList(String dbName, String tableName) {
         IDbService dbService = chooseDbService(dbName);
         return dbService.findColumnsByTable(dbName, tableName);

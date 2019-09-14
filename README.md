@@ -14,6 +14,7 @@ DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比ph
 * 分表只展示其中一个表结构
 * 在线维护表注释，字段注释
 * 支持mysql, sqlserver
+* 表结构导出markdown文档
 
 ## 功能截图
 
@@ -136,12 +137,25 @@ npm run dev
 
 ## 部署
 
-项目使用 springboot2.x + vue-element-template + mybatis。dbtree-vue资源会打包进dbtree-backend/src/main/resources/public下。直接部署
-dbtree-backend/target/dbtree.jar就可以了。  
-
 JDK使用1.8
 
+项目使用 springboot2.x + vue-element-template + mybatis。dbtree-vue资源会打包进dbtree-backend/src/main/resources/public下。直接部署
+dbtree-backend/target/dbtree-{version}.jar就可以了。  
+
+打包后会自动生成dbtree-backend/target/dbtree-{version}.zip文件，将包上传到服务器上，解压后，已经写好启动脚本，端口改为自己的即可。
+
+```bash
+# start
+scripts/startup.sh
+
+# stop
+scripts/shutdown.sh
+
+```
+
 这个工具主要给开发人员使用，部署到测试就可以了，没必要部署到线上，也不安全。
+
+
 
 ## 致谢
 

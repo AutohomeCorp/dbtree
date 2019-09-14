@@ -134,14 +134,21 @@
 
               <div v-if="tableData.dataType=='table'">
                 <div class="filter-container">
-                  <form>
-                  <label>domain包:</label>
-                  <el-input name="domainPackageInput" autocomplete="on" v-model="domainPackage" placeholder="com.autohome.dbtree.dao.mybatis.employee.domain" class="filter-item" style="width: 450px;" />
-                  <label>mapper包:</label>
-                  <el-input name="mapperPackageInput" autocomplete="on" v-model="mapperPackage" placeholder="com.autohome.dbtree.dao.mybatis.employee.mapper" class="filter-item" style="width: 450px;" />
-                  <el-checkbox v-model="useActualColumnNames" class="filter-item" style="margin-left:15px;">使用真实列名</el-checkbox>
-                  <el-button class="filter-item" icon="el-icon-download" type="primary" style="margin-left:15px;" @click="handleGenerateMybatis">下载Mybatis资源</el-button>
-                  </form>
+                  <el-form :inline="true">
+                    <el-form-item label="domain包:">
+                      <el-input v-model="domainPackage" autocomplete="on" placeholder="com.autohome.dbtree.dao.mybatis.employee.domain" style="width: 450px;"></el-input>
+                    </el-form-item>
+                    <el-form-item label="mapper包:">
+                      <el-input v-model="mapperPackage" autocomplete="on" placeholder="com.autohome.dbtree.dao.mybatis.employee.mapper" style="width: 450px;"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-checkbox v-model="useActualColumnNames" class="filter-item" style="margin-left:15px;">使用真实列名</el-checkbox>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button class="filter-item" icon="el-icon-download" type="primary" style="margin-left:15px;" @click="handleGenerateMybatis">下载Mybatis资源</el-button>
+                      <el-button icon="el-icon-download" type="primary" @click="handleExportMarkdown">导出Markdown</el-button>  
+                    </el-form-item>
+                  </el-form>
                 </div>
                 <el-table
                   :data="tableData.list"
@@ -672,6 +679,23 @@
 
       handleSelectionChange(val) {
         this.tableData.selections = val;
+      },
+
+      handleExportMarkdown() {
+        var dbName = this.$refs.tree.getCurrentNode().database;
+        if(this.tableData.selections.length === 0) {
+          this.$message({
+              message: '请至少选择一个表',
+              type: 'warning'
+          });
+          return;
+        }
+        var tables = this.tableData.selections.map(v => {
+          return v.tableName;
+        });
+        code.exportMarkdown(dbName, tables.join(',')).then(response => {
+          this.forceFileDownload(response, dbName + '.md');
+        });
       }
     }
   };
