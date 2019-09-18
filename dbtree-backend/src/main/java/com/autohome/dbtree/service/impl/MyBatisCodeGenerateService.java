@@ -16,6 +16,7 @@ import org.zeroturnaround.zip.ZipUtil;
 import javax.annotation.Resource;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,15 @@ public class MyBatisCodeGenerateService implements IMybatisCodeGenerateService {
         File directory = new File(absoluteFolderPath);
         directory.mkdirs();
         directory.setWritable(true);
+
+        String javaFolder = absoluteFolderPath + File.separator + String.join(File.separator, Arrays.asList("src", "main", "java"));
+        String mapperFolder = absoluteFolderPath + File.separator + String.join(File.separator, Arrays.asList("src", "main", "resources"));
+
+        File javaDir = new File(javaFolder);
+        javaDir.mkdirs();
+
+        File mapperDir = new File(mapperFolder);
+        mapperDir.mkdirs();
 
         List<String> warnings = new ArrayList<>();
         Context context = new Context(ModelType.CONDITIONAL);
@@ -71,27 +81,22 @@ public class MyBatisCodeGenerateService implements IMybatisCodeGenerateService {
 
         /*生成模型的包名和位置*/
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
-        //javaModelGeneratorConfiguration.setTargetPackage(String.format("%s.%s.%s.domain", daoPackage, dbServer.getDb_type(), dbName));
-        //javaModelGeneratorConfiguration.setTargetPackage(basePackage + ".domain");
         javaModelGeneratorConfiguration.setTargetPackage(domainPackage);
-        javaModelGeneratorConfiguration.setTargetProject(absoluteFolderPath);
+        javaModelGeneratorConfiguration.setTargetProject(javaFolder);
         javaModelGeneratorConfiguration.addProperty("enableSubPackages", "true");
         javaModelGeneratorConfiguration.addProperty("trimStrings", "true");
 
         /*生成映射文件的包名和位置*/
         SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration = new SqlMapGeneratorConfiguration();
-        //sqlMapGeneratorConfiguration.setTargetPackage(String.format("%s.%s.%s.mapping", daoPackage, dbServer.getDb_type(), dbName));
-        sqlMapGeneratorConfiguration.setTargetPackage("resources.mapping");
-        sqlMapGeneratorConfiguration.setTargetProject(absoluteFolderPath);
+        sqlMapGeneratorConfiguration.setTargetPackage("mapping." + dbName);
+        sqlMapGeneratorConfiguration.setTargetProject(mapperFolder);
         sqlMapGeneratorConfiguration.addProperty("enableSubPackages", "true");
 
         /*生成DAO的包名和位置*/
         JavaClientGeneratorConfiguration javaClientGeneratorConfiguration = new JavaClientGeneratorConfiguration();
         javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
-        //javaClientGeneratorConfiguration.setTargetPackage(String.format("%s.%s.%s.mapper", daoPackage, dbServer.getDb_type(), dbName));
-        //javaClientGeneratorConfiguration.setTargetPackage(basePackage + ".mapper");
         javaClientGeneratorConfiguration.setTargetPackage(mapperPackage);
-        javaClientGeneratorConfiguration.setTargetProject(absoluteFolderPath);
+        javaClientGeneratorConfiguration.setTargetProject(javaFolder);
         javaClientGeneratorConfiguration.addProperty("enableSubPackages", "true");
 
         context.setCommentGeneratorConfiguration(commentGeneratorConfiguration);
@@ -119,6 +124,11 @@ public class MyBatisCodeGenerateService implements IMybatisCodeGenerateService {
 
             context.addTableConfiguration(tableConfiguration);
         }
+
+        PluginConfiguration unmergePlugin = new PluginConfiguration();
+        unmergePlugin.addProperty("type", "org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin");
+        unmergePlugin.setConfigurationType("org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin");
+        context.addPluginConfiguration(unmergePlugin);
 
         Configuration config = new Configuration();
         if (dbServer.getDb_type().equalsIgnoreCase("mysql")) {
