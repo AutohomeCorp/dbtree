@@ -10,9 +10,9 @@ DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比ph
 
 * 一键生成下载mybatis资源
 * 对表进行目录分类
-* 展示表常用信息
+* 展示表结构信息
 * 分表只展示其中一个表结构
-* 在线维护表注释，字段注释
+* 修改表注释，字段注释
 * 支持mysql, sqlserver
 * 表结构导出markdown文档
 
@@ -155,10 +155,20 @@ scripts/shutdown.sh
 
 这个工具主要给开发人员使用，部署到测试就可以了，没必要部署到线上，也不安全。
 
+## 后续规划
 
+* 增加服务器配置页面，数据库配置页面，动态增加数据库，不用修改配置重新部署
+
+## 主要技术
+
+* Element tree组件
+* mybatis generator core
+* springboot2.x
+* vue 2.x
 
 ## 致谢
 
 - [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
+- [Element tree](https://element.eleme.io/#/zh-CN/component/tree)
 
 
