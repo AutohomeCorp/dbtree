@@ -15,6 +15,7 @@ DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比ph
 * 修改表注释，字段注释
 * 支持mysql, sqlserver
 * 表结构导出markdown文档
+* 网页方式管理
 
 ## 功能截图
 
@@ -98,11 +99,13 @@ mybatis生成文件存放目录。
 
 * mybatis.mysql.connector
 
-mysql jdbc jar包位置, 用于配置mybatis generator core的mysql classpathEntry。
+mysql jdbc jar包位置, 用于配置mybatis generator core的mysql classpathEntry。你可以直接使用dbtree/connector/mysql-connector-java-5.1.36.jar
+拷贝到你的服务器上
 
 * mybatis.sqlserver.connector
 
-sqlserver jdbc jar包位置, 用于配置mybatis generator core的SQL Server classpathEntry。
+sqlserver jdbc jar包位置, 用于配置mybatis generator core的SQL Server classpathEntry。你可以直接使用 dbtree/connector/sqljdbc42.jar拷贝
+到你的服务器上
 
 ## 表结构语句
 
