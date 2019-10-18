@@ -15,7 +15,7 @@ DBTree是一个WEB版的轻量数据库表结构查看及管理工具，相比ph
 * 修改表注释，字段注释
 * 支持mysql, sqlserver
 * 表结构导出markdown文档
-* 网页方式管理
+* 网页方式管理，方便共享
 
 ## 功能截图
 
@@ -113,7 +113,7 @@ mysql表创建语句见：dbtree-backend/doc/schema目录
 
 ## 数据库连接配置
 
-自行修改配置文件中的数据库服务器地址，和用户名, 密码，密码使用druid默认加密。
+自行修改配置文件中的数据库服务器地址，和用户名, 密码，密码使用druid默认加密。参考: [druid数据库密码加密](https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter)
 
 ## 开发调试
 
