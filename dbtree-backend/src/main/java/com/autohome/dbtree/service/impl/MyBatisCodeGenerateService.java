@@ -1,24 +1,34 @@
 package com.autohome.dbtree.service.impl;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import javax.annotation.Resource;
+
 import com.autohome.dbtree.config.MybatisCodeGeneratorConfig;
 import com.autohome.dbtree.contract.DbInfo;
 import com.autohome.dbtree.contract.DbServer;
 import com.autohome.dbtree.service.IMybatisCodeGenerateService;
 import org.joda.time.DateTime;
 import org.mybatis.generator.api.MyBatisGenerator;
-import org.mybatis.generator.config.*;
+import org.mybatis.generator.config.CommentGeneratorConfiguration;
+import org.mybatis.generator.config.Configuration;
+import org.mybatis.generator.config.Context;
+import org.mybatis.generator.config.JDBCConnectionConfiguration;
+import org.mybatis.generator.config.JavaClientGeneratorConfiguration;
+import org.mybatis.generator.config.JavaModelGeneratorConfiguration;
+import org.mybatis.generator.config.JavaTypeResolverConfiguration;
+import org.mybatis.generator.config.ModelType;
+import org.mybatis.generator.config.PluginConfiguration;
+import org.mybatis.generator.config.SqlMapGeneratorConfiguration;
+import org.mybatis.generator.config.TableConfiguration;
 import org.mybatis.generator.internal.DefaultShellCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.zeroturnaround.zip.ZipUtil;
-
-import javax.annotation.Resource;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class MyBatisCodeGenerateService implements IMybatisCodeGenerateService {
@@ -59,7 +69,8 @@ public class MyBatisCodeGenerateService implements IMybatisCodeGenerateService {
         CommentGeneratorConfiguration commentGeneratorConfiguration = new CommentGeneratorConfiguration();
         commentGeneratorConfiguration.addProperty("suppressDate", "true");
         commentGeneratorConfiguration.addProperty("suppressAllComments", "true");
-        commentGeneratorConfiguration.addProperty("useActualColumnNames", "false");
+        commentGeneratorConfiguration.addProperty("addRemarkComments", "true");
+        commentGeneratorConfiguration.setConfigurationType("com.autohome.dbtree.util.CommentGeneratorExt");
 
         /*数据库链接URL，用户名、密码 */
         DbInfo dbInfo = dbInfoMap.get(dbName);
