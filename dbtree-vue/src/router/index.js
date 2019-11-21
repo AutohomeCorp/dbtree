@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-Vue.use(Router)
-
 /* Layout */
 import Layout from '@/layout'
+
+Vue.use(Router)
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -184,15 +183,13 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
-    path: 'external-link',
+    path: 'source',
     component: Layout,
-    hidden: true,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'https://github.com/AutohomeCorp/dbtree',
+        meta: {title: 'Git源码', icon: 'link'}
       }
     ]
   },
