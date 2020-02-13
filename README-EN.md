@@ -13,6 +13,7 @@ update comment handily.
 * show only one table delegate if the table is split into hundreds or thousands.
 * update table comment, column comment online handily.
 * support mysql, sql server
+* export table schema as markdown
 
 ## Demo
 
@@ -75,6 +76,18 @@ dbtree-backend/src/main/resources/dbconfig/db-config.json
 ```
 db-config.json is a json map content, the key must be as same as database name(db_name). You can use split_table_rules to specify the 
 table split pattern, the example means using rule to represent all rule_% tables.
+
+* mybatis.base.folder
+
+the store folder for mybatis generated code file
+
+* mybatis.mysql.connector
+
+the location of mysql jdbc jar. you can copy dbtree/connector/mysql-connector-java-5.1.36.jar to your own folder.
+
+* mybatis.sqlserver.connector
+
+the location of sqlserver jdbc jar. you can copy dbtree/connector/sqljdbc42.jar to your own folder
 
 ## Debug
 
